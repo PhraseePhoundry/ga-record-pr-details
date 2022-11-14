@@ -1,5 +1,5 @@
 name: Record PR details
-description: Records details of PRs merged to develop
+description: Records details of PRs opened to develop
 runs:
   using: 'node12'
   main: './index.js'

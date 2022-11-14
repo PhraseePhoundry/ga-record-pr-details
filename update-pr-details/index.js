@@ -1,13 +1,11 @@
 const main = () => {
 
+  console.log("update details")
   console.log("this is a test logging statement")
 
   const event = process.env.GITHUB_EVENT_PATH ? require(process.env.GITHUB_EVENT_PATH) : {};
 
-  // const messages = event.commits ? event.commits.map((commit) => commit.message + '\n' + commit.body) : [];
-
   console.log(event.pull_request)
-  console.log(JSON.stringify(event.pull_request))
 
 }
 

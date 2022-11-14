@@ -1,0 +1,5 @@
+name: Update PR details
+description: Updates PR details when PR to develop is merged
+runs:
+  using: 'node12'
+  main: './index.js'
