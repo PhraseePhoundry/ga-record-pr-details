@@ -6,7 +6,9 @@ const main = () => {
 
   // const messages = event.commits ? event.commits.map((commit) => commit.message + '\n' + commit.body) : [];
 
-  console.log(event)
+  console.log(event.pull_request)
+  console.log(JSON.stringify(event.pull_request))
+
 }
 
 main()
