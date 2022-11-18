@@ -1,0 +1,24 @@
+{
+  "name": "ga-record-pr-details",
+  "version": "1.0.0",
+  "description": "GitHub Action to record PR details",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PhraseePhoundry/ga-record-pr-details.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@phrasee/phrasee-logger": "git+ssh://git@github.com/PhraseePhoundry/phrasee-logger.git",
+    "@actions/core": "^1.0.0",
+    "mongodb": "^4.12.0"
+  },
+  "bugs": {
+    "url": "https://github.com/PhraseePhoundry/ga-record-pr-details/issues"
+  },
+  "homepage": "https://github.com/PhraseePhoundry/ga-record-pr-details#readme"
+}

@@ -1,5 +1,9 @@
 name: Record PR details
 description: Records details of PRs opened to develop
+inputs:
+  newTag:
+    description: New version number for the service
+    required: true
 runs:
   using: 'node12'
   main: './index.js'
