@@ -1,14 +1,10 @@
 const { MongoClient } = require('mongodb');
-const phraseeLogger = require('@phrasee/phrasee-logger');
 const core = require('@actions/core')
-phraseeLogger.init();
 
 let connection;
 
 async function main () {
-  phraseeLogger.info({
-    msg: 'Recording PR details',
-  });
+  console.log('Recording PR details')
 
   try {
     const event = process.env.GITHUB_EVENT_PATH ? require(process.env.GITHUB_EVENT_PATH) : {};
@@ -28,7 +24,7 @@ async function main () {
   }
 }
 
-export const savePRDetails = async (collection, serviceVersion, pr) => {
+const savePRDetails = async (collection, serviceVersion, pr) => {
 
   const query = {
     description: pr.body,
@@ -46,10 +42,7 @@ export const savePRDetails = async (collection, serviceVersion, pr) => {
     const newRecord = await insertOne(dbTaskCommand);
     return newRecord;
   } catch (err) {
-    phraseeLogger.error({
-      msg: 'An error occurred when attempting to save PR details',
-      err,
-    });
+    console.error(`An error occurred when trying to save PR details: ${String(err)}`)
     process.exit(1);
   }
 };
@@ -61,16 +54,12 @@ const connect = async (url, db_name) => {
     { useNewUrlParser: true },
   );
   connection = link.db(db_name);
-  phraseeLogger.debug({ msg: 'Database connection initiated' });
+  console.log('Database connection initialised')
   return connection;
 };
 
 const insertOne = async (cmd) => {
-  phraseeLogger.debug({
-    msg: `insertOne : Collection ${cmd.collection} Query ${JSON.stringify(
-      cmd.query,
-    )}`,
-  });
+  console.log(`Inserting record: collection ${cmd.collection}, query ${JSON.stringify(cmd.query)}`)
 
   const collection = connection.collection(cmd.collection);
   const insert = await collection.insertOne(cmd.query);
