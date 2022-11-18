@@ -49,10 +49,10 @@ const savePRDetails = async (collection, serviceVersion, pr) => {
 
 const connect = async (url, db_name) => {
 
-  const link = await MongoClient.connect(
-    url,
-    { useNewUrlParser: true },
-  );
+  console.log(url)
+  console.log(db_name)
+
+  const link = await MongoClient.connect(url);
   connection = link.db(db_name);
   console.log('Database connection initialised')
   return connection;
