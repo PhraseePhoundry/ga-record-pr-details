@@ -9,9 +9,9 @@ async function main () {
   try {
     const event = process.env.GITHUB_EVENT_PATH ? require(process.env.GITHUB_EVENT_PATH) : {};
 
-    const db = process.env.DB_URL;
-    const dbName = process.env.DB_NAME;
-    const collection = process.env.DB_COLLECTION;
+    const db = process.env.MONGO_DB_URL;
+    const dbName = process.env.MONGO_DB_NAME;
+    const collection = process.env.MONGO_DB_COLLECTION;
     const serviceVersion = core.getInput('newTag');
   
     await connect(db, dbName);
