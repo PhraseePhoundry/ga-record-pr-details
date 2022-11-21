@@ -41,6 +41,7 @@ const savePRDetails = async (connection, collection, serviceVersion, pr) => {
     merge_date: new Date(),
     created_by: pr.user.login,
     title: pr.title,
+    repository: pr.base.repo.name,
     version: isValidVersionNumber(serviceVersion) ? serviceVersion : null,
   };
   const dbTaskCommand = {
