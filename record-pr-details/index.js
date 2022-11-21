@@ -15,7 +15,7 @@ async function main () {
     const serviceVersion = core.getInput('newTag');
   
     await connect(db, dbName);
-    await savePRDetails(collection, serviceVersion, event.pull_request)
+    await savePRDetails(collection, serviceVersion, event.pull_request);
 
     return
   } catch (err) {
@@ -28,7 +28,7 @@ const savePRDetails = async (collection, serviceVersion, pr) => {
 
   const query = {
     description: pr.body,
-    merge_date: pr.date,
+    merge_date: new Date(),
     created_by: pr.user.login,
     title: pr.title,
     version: isValidVersionNumber(serviceVersion) ? serviceVersion : null,
@@ -39,8 +39,8 @@ const savePRDetails = async (collection, serviceVersion, pr) => {
   };
 
   try {
-    const newRecord = await insertOne(dbTaskCommand);
-    return newRecord;
+    await insertOne(dbTaskCommand);
+    return;
   } catch (err) {
     console.error(`An error occurred when trying to save PR details: ${String(err)}`)
     process.exit(1);
@@ -62,8 +62,8 @@ const insertOne = async (cmd) => {
   console.log(`Inserting record: collection ${cmd.collection}, query ${JSON.stringify(cmd.query)}`)
 
   const collection = connection.collection(cmd.collection);
-  const insert = await collection.insertOne(cmd.query);
-  return insert.insertedId ? [true, insert.insertedId] : [false, null];
+  await collection.insertOne(cmd.query);
+  return
 };
 
 const isValidVersionNumber = (version) => {
