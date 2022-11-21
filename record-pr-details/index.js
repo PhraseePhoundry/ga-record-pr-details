@@ -66,7 +66,7 @@ const insertOne = async (cmd) => {
   console.log(`Inserting record: collection ${cmd.collection}, query ${JSON.stringify(cmd.query)}`)
 
   const collection = connection.collection(cmd.collection);
-  await collection.insertOne(cmd.query);
+  const insert = await collection.insertOne(cmd.query);
   return insert.insertedId ? [true, insert.insertedId] : [false, null];
 };
 
