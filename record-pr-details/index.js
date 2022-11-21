@@ -1,7 +1,7 @@
 const { MongoClient } = require('mongodb');
 const core = require('@actions/core')
 
-let connection;
+// let connection;
 
 async function main () {
   console.log('Recording PR details')
@@ -14,10 +14,15 @@ async function main () {
     const collection = process.env.MONGO_DB_COLLECTION;
     const serviceVersion = core.getInput('newTag');
   
-    await connect(db, dbName);
-    const newRecord = await savePRDetails(collection, serviceVersion, event.pull_request);
+    const mongoClient = await MongoClient.connect(db);
+    const connection = mongoClient.db(dbName);
+    console.log('Database connection initialised')
+    const newRecord = await savePRDetails(connection, collection, serviceVersion, event.pull_request);
+
 
     if (newRecord) {
+      console.log('Successfully saved pull request details');
+      mongoClient.close()
       return
     }
 
@@ -29,7 +34,7 @@ async function main () {
   }
 }
 
-const savePRDetails = async (collection, serviceVersion, pr) => {
+const savePRDetails = async (connection, collection, serviceVersion, pr) => {
 
   const query = {
     description: pr.body,
@@ -44,25 +49,15 @@ const savePRDetails = async (collection, serviceVersion, pr) => {
   };
 
   try {
-    return await insertOne(dbTaskCommand);
+    return await insertOne(connection, dbTaskCommand);
   } catch (err) {
     console.error(`An error occurred when trying to save PR details: ${String(err)}`)
     process.exit(1);
   }
 };
 
-const connect = async (url, db_name) => {
 
-  console.log(url)
-  console.log(db_name)
-
-  const link = await MongoClient.connect(url);
-  connection = link.db(db_name);
-  console.log('Database connection initialised')
-  return connection;
-};
-
-const insertOne = async (cmd) => {
+const insertOne = async (connection, cmd) => {
   console.log(`Inserting record: collection ${cmd.collection}, query ${JSON.stringify(cmd.query)}`)
 
   const collection = connection.collection(cmd.collection);
