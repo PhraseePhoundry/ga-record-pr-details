@@ -42,6 +42,7 @@ const savePRDetails = async (connection, collection, serviceVersion, pr) => {
     created_by: pr.user.login,
     title: pr.title,
     repository: pr.base.repo.name,
+    pr_url: pr.url,
     version: isValidVersionNumber(serviceVersion) ? serviceVersion : null,
   };
   const dbTaskCommand = {
